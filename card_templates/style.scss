@@ -5,6 +5,7 @@ $section-title-background: hsla(201, 100%, 14%, 0.15);
 $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
 
 :root {
+  --secondary-text: #333;
   --highlight-color: #{$highlight-color};
   --attention-color: #{$attention-color};
   --tip-color: #{$tip-color};
@@ -13,6 +14,7 @@ $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
 }
 
 .night_mode {
+  --secondary-text: #ddd;
   --highlight-color: #{adjust-color($highlight-color, $lightness: 8%)};
   --attention-color: #{adjust-color($attention-color, $lightness: 5%)};
   --tip-color: #{adjust-color($tip-color, $lightness: 5%)};
@@ -79,7 +81,8 @@ $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
 
 .button {
   border-radius: 0.5em;
-  border: 1px solid black;
+  border: 1px solid;
+  border-color: var(--secondary-text);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,6 +92,17 @@ $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
   user-select: none;
   -webkit-user-select: none;
   font-weight: normal;
+  transition: background-color 0.2s, border-color 0.2s, opacity 0.2s;
+
+  &.disabled {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  &.error {
+    border-color: rgb(240, 57, 57) !important;
+    background: rgba(240, 57, 57, 0.2) !important;
+  }
 }
 
 .svg-button {
@@ -138,7 +152,6 @@ $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
   &:active {
     background: rgba(100, 100, 100, 0.5);
   }
-
   border-color: white;
 }
 
@@ -169,6 +182,8 @@ $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
   text-align: center;
   background-color: white;
   width: 96%;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -338,7 +353,7 @@ span.no-break {
 }
 
 .spoiler {
-  transition: all 0.2s;
+  transition: color 0.2s, background-color 0.2s;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   border-radius: 0.2em;
@@ -347,7 +362,7 @@ span.no-break {
 
   &:not(.clicked) {
     color: transparent;
-    background: #eee;
+    background: #e3e3e3;
     > * {
       opacity: 0;
       transition: all 0.2s;
@@ -357,7 +372,7 @@ span.no-break {
 
 .night_mode .spoiler:not(.clicked) {
   color: transparent;
-  background: #333;
+  background: #383838;
   > * {
     opacity: 0;
   }
@@ -417,6 +432,90 @@ hr {
 }
 
 /**
+  Cloze game
+  -----------------------------------------------
+**/
+#cloze-game {
+  background: #f5f5f5;
+  padding: 1em;
+  border-radius: 0.5em;
+  transition: background-color 0.2s, color 0.2s, padding 0.2s;
+  overflow: hidden;
+  position: relative;
+
+  &.finished {
+    background: rgba($tip-color, 0.5) !important;
+
+    hr, #word-buttons {
+      display: none;
+    }
+  }
+
+  #overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 500;
+    transition: opacity 0.2s, background-color 0.2s;
+    font-size: 75%;
+    color: var(--secondary-text);
+    cursor: pointer;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  #sentence-cloze {
+  }
+
+  hr {
+    opacity: 0.2;
+    margin: 1.25em 0;
+  }
+
+  .cloze {
+    display: inline-block;
+  }
+
+  .spoiler {
+    padding: 0;
+    text-decoration: none !important;
+  }
+
+  .spoiler + .spoiler.no-space {
+    margin-left: -0.5em;
+    padding-left: 0.5em;
+  }
+
+  .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+    margin-top: 1rem;
+  }
+
+  .word-button {
+    height: 1.6em;
+    min-width: 1.5em;
+    padding: 0 0.4em;
+  }
+}
+
+.night_mode #cloze-game {
+  background: #222;
+}
+
+/**
   Box
   -----------------------------------------------
 **/
@@ -439,7 +538,7 @@ hr {
   margin-bottom: 3em;
 }
 
-.box_float {
+.box-float {
   position: absolute;
   top: 0;
   right: 0;
@@ -459,31 +558,27 @@ hr {
   border-width: 3px;
   padding: 12px;
   font-size: 50%;
+
+  #cloze-game {
+    background: transparent !important;
+    padding: 0.5em !important;
+
+    &.finished {
+      padding: 0 !important;
+    }
+  }
 }
 
-#single_sentence {
+#front-sentence {
   margin-top: 2em;
-  font-size: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-  align-items: center;
+  font-size: 55%;
 
   .fr {
     font-weight: normal;
   }
-}
 
-#sentence_hint {
-  .word-highlight {
-    display: inline-block;
-    white-space: nowrap;
-    height: 1em;
-    width: 4em;
-    text-decoration: none;
-    color: transparent;
-    opacity: 0.65;
-    border-bottom: 0.1em solid var(--highlight-color);
+  #sentences-inner {
+    margin-bottom: 1.5em;
   }
 }
 
@@ -517,11 +612,12 @@ u {
     margin: 0;
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin: 0;
     padding-inline-start: 1.5em;
   }
-  
+
   li {
     list-style-type: square;
   }
@@ -539,7 +635,8 @@ u {
       margin-bottom: 0.75em;
     }
 
-    .fr:not(:first-child), p:not(:first-child) {
+    .fr:not(:first-child),
+    p:not(:first-child) {
       margin-top: 0.5em;
     }
   }

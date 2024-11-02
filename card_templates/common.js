@@ -31,7 +31,7 @@ function formatDefinition() {
   });
 }
 
-function processText(text, isFrench) {
+function processText(text, isFrench, processStars = true) {
   if (text.length === 0) {
     return text;
   }
@@ -70,7 +70,9 @@ function processText(text, isFrench) {
   }
 
   // replace *...* with word-highlight span
-  text = text.replaceAll(/\*(.*?)\*/g, '\u2060<span class="word-highlight">$1</span>\u2060');
+  if (processStars) {
+    text = text.replaceAll(/\*(.*?)\*/g, '\u2060<span class="word-highlight">$1</span>\u2060');
+  }
   return text;
 }
 
@@ -190,3 +192,5 @@ function b64ToBlob(b64Data, contentType, sliceSize = 512) {
   }
   return new Blob(byteArrays, { type: contentType });
 }
+
+___CLOZE_GAME___;
