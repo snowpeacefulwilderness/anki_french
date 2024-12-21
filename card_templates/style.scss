@@ -263,14 +263,22 @@ $section-within-section-title-background: hsla(201, 100%, 14%, 0.07);
   }
 }
 
-.ipa {
+#ipa {
   font-size: 60%;
+  line-height: 1.3em;
+}
+
+.ipa {
+  font-size: 85%;
   font-family: NotoSans;
-  margin-top: 0.1em;
+  line-height: 1em;
 }
 
 .audio {
   margin: 0.3em;
+}
+
+.pos-definition {
 }
 
 .pos {
@@ -484,6 +492,7 @@ hr {
 
   .cloze {
     display: inline-block;
+    transition: background-color 0.2s, color 0.2s;
   }
 
   .spoiler {
@@ -558,6 +567,7 @@ hr {
   border-width: 3px;
   padding: 12px;
   font-size: 50%;
+  margin-top: 2.5em;
 
   #cloze-game {
     background: transparent !important;
@@ -646,6 +656,11 @@ u {
     margin-top: 0.75em;
   }
 
+  h4 {
+    margin: 0;
+    margin-top: 0.5em;
+  }
+
   .section {
     margin: 0 !important;
 
@@ -669,6 +684,21 @@ u {
     padding: 0.2em 10px;
     cursor: pointer;
     transition: opacity 0.2s;
+
+    &.tip-section {
+      font-weight: normal;
+
+      &::before {
+        content: "!";
+        font-size: 70%;
+        border-radius: 0.5em;
+        padding: 0 0.35em;
+        margin-right: 0.5em;
+        border-width: 1px;
+        border-color: var(--secondary-text);
+        border-style: solid;
+      }
+    }
 
     &:active {
       opacity: 0.7;
@@ -1003,6 +1033,9 @@ tr[data-tense="PC"] .tense_stem {
 
   #grammar-sections {
     #grammar-sections-title {
+      display: flex;
+      align-items: center;
+      gap: 0.25em;
       margin-bottom: 0.5em;
       font-weight: bold;
       font-size: 120%;

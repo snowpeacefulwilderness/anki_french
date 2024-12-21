@@ -42,19 +42,19 @@ if (pos) {
         ["vi", "intransitives Verb", ""],
         ["vt", "transitives Verb", ""],
         ["vr", "reflexives Verb", ""],
-        ["nadj", "Substantiv/Adjektiv", ""],
         ["adj", "Adjektiv", ""],
         ["adv", "Adverb", ""],
+        ["art", "Artikel", ""],
+        ["app", "Apposition", ""],
         ["conj", "Konjunktion", ""],
         ["det", "Determinativ", ""],
         ["intj", "Interjektion", ""],
+        ["num", "Numeral", ""],
         ["prep", "Präposition", ""],
         ["pro", "Pronomen", ""],
         ["n", "Substantiv", ""],
-        ["(f)", "ohne eigenständiges Femininum", "suffix"],
-        ["(pl)", "ohne eigenständige Pluralform", "suffix"],
         ["(imp)", "unpersönliches", "prefix"],
-        ["pl", "nur mit Plural", "suffix"],
+        ["pl", "nur in Plural", "suffix"],
         ["f", "feminines", "prefix"],
         ["m", "maskulines", "prefix"],
         ["i", "unveränderliches", "prefix"],
@@ -120,14 +120,14 @@ function refreshExampleSentences() {
 
     gameContainer.innerHTML = "";
     gameContainer.className = "";
-    initClozeGame(
-      frenchFirst
+    initClozeGame({
+      sentence: frenchFirst
         ? processText(de, false, false)
         : processText(fr, true, false),
       gameContainer,
-      frenchFirst,
-      false
-    );
+      isGerman: frenchFirst,
+      showOverlay: false
+    });
   } else {
     sentencesInner.innerHTML = frenchFirst
       ? `<div class="fr">${fr}</div><span class="de spoiler">${de}</span>`
@@ -153,7 +153,7 @@ function formatSentences(within = document) {
     // show audio button if sentence ends with punctuation
     const shouldShow =
       !el.classList.contains("no-audio") &&
-      (text.match(/[.!?…]/) || el.classList.contains("force-audio"));
+      (text.match(/[.!?…→]/) || el.classList.contains("force-audio"));
     el.innerHTML = text;
     if (shouldShow) {
       const textContent = el.textContent;
@@ -195,16 +195,16 @@ async function initAudioButtons(within = document) {
       const text = this.dataset.text;
       const customFileName = this.dataset.fileName;
 
-      playAudio(text, customFileName);
+      playAudio({text, customFileName});
     };
   });
 
   if (within == document && options.autoPlaySentence) {
     setTimeout(() => {
       if (options.autoPlaySentenceInGerman) {
-        playAudio(sentencesPairs[0].split("\n")[1], undefined, "de-DE");
+        playAudio({text: sentencesPairs[0].split("\n")[1], lang: "de-DE"});
       } else {
-        playAudio(sentencesPairs[0].split("\n")[0]);
+        playAudio({text: sentencesPairs[0].split("\n")[0]});
       }
     }, options.autoPlaySentenceDelay ?? 1000);
   }

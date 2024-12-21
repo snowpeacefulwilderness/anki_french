@@ -44,7 +44,7 @@ function processText(text, isFrench, processStars = true) {
     // insert thin non-breaking space before punctuation (but not inside HTML tags)
     text = text.replaceAll(/(?!.*<[^>]+>)(\s?)([?|:|!|;])/g, "\u202F$2");
     // Replace " with French quote marks « ... », except inside HTML tags
-    text = text.replace(/"([^"]*?)"(?=(?:[^<]*<(?!\/?[^>]+>))*[^<]*$)/g, "«\u202F$1\u202F»");
+    text = text.replace(/"(?![^<]*>)(.*?)"(?![^<]*>)/g, "«\u202F$1\u202F»");
 
     if (text[0] === "-") {
       text[0] = "–";
@@ -93,13 +93,18 @@ function shuffleArray(arr, persist = true) {
   return arr;
 }
 
-async function playAudio(text, customFileName = undefined, lang = "fr-FR") {
+async function fetchAudio({text, customFileName = undefined, lang = "fr-FR"}) {
   const url = customFileName
     ? getAnkiPrefix() + "/" + customFileName
     : await getTTSUrl(text, false, lang);
 
   const audioCurrent = document.querySelector("audio");
   audioCurrent.src = url;
+}
+
+async function playAudio({text, customFileName = undefined, lang = "fr-FR"}) {
+  await fetchAudio({text, customFileName, lang});
+  const audioCurrent = document.querySelector("audio");
 
   try {
     await audioCurrent.play();
@@ -111,8 +116,8 @@ async function playAudio(text, customFileName = undefined, lang = "fr-FR") {
 
 const memoizedTTSUrls = {};
 
-async function getTTSUrl(text, forceGoogleTranslate = false, lang = "fr-FR") {
-  text = text.replaceAll("*", "");
+async function getTTSUrl(textToRead, forceGoogleTranslate = false, lang = "fr-FR") {
+  const text = textToRead.replaceAll("*", "");
   
   // if no API key is set, fallback to use the free Google Translate TTS
   if (!options.googleTTSApiKey || forceGoogleTranslate) {
@@ -125,6 +130,7 @@ async function getTTSUrl(text, forceGoogleTranslate = false, lang = "fr-FR") {
 
   try {
     let textInput = decodeURIComponent(text);
+    textInput = textInput.replaceAll("*", "").replaceAll("→", ";");
     let useSsml = false;
     if (textInput.includes("\n")) {
       useSsml = true;
