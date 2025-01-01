@@ -1,8 +1,5 @@
 Die folgenden Definitionen sind mehrfach vorhanden:
 
-* wirklich, tatsächlich: [réellement](cards/1563_réellement.yml) (#1563), [véritablement](cards/3115_véritablement.yml) (#3115)
-* zusätzlich: [supplémentaire](cards/1267_supplémentaire.yml) (#1267), [additionnel](cards/3131_additionnel.yml) (#3131)
-* heiraten: [marier](cards/1686_marier.yml) (#1686), [épouser](cards/3136_épouser.yml) (#3136)
 * Überschuss: [surplus](cards/3104_surplus.yml) (#3104), [excédent](cards/3140_excédent.yml) (#3140)
 * manchmal: [parfois](cards/0410_parfois.yml) (#410), [quelquefois](cards/3170_quelquefois.yml) (#3170)
 * Erlaubnis: [autorisation](cards/1649_autorisation.yml) (#1649), [permission](cards/3183_permission.yml) (#3183)
@@ -64,6 +61,7 @@ Die folgenden Definitionen sind mehrfach vorhanden:
 * Auswirkung, Folge: [répercussion](cards/3627_répercussion.yml) (#3627), [retombée](cards/4618_retombée.yml) (#4618)
 * unterscheiden: [distinguer](cards/1807_distinguer.yml) (#1807), [différencier](cards/4620_différencier.yml) (#4620)
 * beschuldigen: [accuser](cards/1147_accuser.yml) (#1147), [inculper](cards/4638_inculper.yml) (#4638)
+* vollständig, total: [totalement](cards/1353_totalement.yml) (#1353), [intégral](cards/4641_intégral.yml) (#4641)
 * unerträglich: [insupportable](cards/4484_insupportable.yml) (#4484), [intolérable](cards/4664_intolérable.yml) (#4664)
 * Bauer: [paysan](cards/2317_paysan.yml) (#2317), [fermier](cards/4685_fermier.yml) (#4685)
 * beeinflussen: [influencer](cards/2498_influencer.yml) (#2498), [influer](cards/4690_influer.yml) (#4690)
